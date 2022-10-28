@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" color="light">
-      <ion-input :value="no"></ion-input>
+      <ion-input type="number" v-model="no"></ion-input>
     </ion-content>
     <ion-footer>
       <ion-toolbar>
@@ -16,7 +16,7 @@
               <ion-button size="full" :color="btn1>0 ? 'primary':'danger'" @click="toggle()">+ / - </ion-button>
             </ion-col>
             <ion-col>
-              <ion-button size="full" :disabled="history.length==1" @click="historyBack()">이전</ion-button>
+              <ion-button size="full" :disabled="history.length<1" @click="historyBack()">이전</ion-button>
             </ion-col>
             <ion-col>
               <ion-button size="full" color="medium" @click="clear()">초기화</ion-button>
@@ -58,6 +58,7 @@
 <script lang="ts">
 import { IonContent, IonHeader, IonFooter,
         IonPage, IonTitle, IonToolbar,
+        IonInput,
         IonGrid,IonRow,IonCol,
         IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
@@ -71,15 +72,16 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar,
+    IonInput,
     IonGrid,IonRow,IonCol,
     IonButton
   },
-  data(vm) {
-      let no = 0;
-      let history = [0];
-      let btn1 = 1;
-      let btn2 = 10;
-      let btn3 = 100;
+  data() {
+      let no = 0 as number;
+      let history = [] as any;
+      let btn1 = 1 as number;
+      let btn2 = 10 as number;
+      let btn3 = 100 as number;
       return {
         no,
         history,
@@ -88,7 +90,7 @@ export default defineComponent({
   },
   methods:{
     add(i : number){
-      this.no += i;
+      this.no =this.no*1 + i;
       this.history.push(this.no);
     },
     historyBack(){      
@@ -105,7 +107,7 @@ export default defineComponent({
     },
     clear(){
       this.no = 0;
-      this.history = [0];
+      this.history = [];
     }
   }
 });
